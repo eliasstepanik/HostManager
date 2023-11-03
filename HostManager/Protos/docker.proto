@@ -23,15 +23,26 @@ message GetPortsReply {
 
 
   message Port {
-    string type = 1;
+    TypeType type = 1;
     int32 destPort = 2;
     ActionType action = 3;
-    
-    
+    bool enable = 4;
+    optional int32 position = 5;
+    ProtocolType protocol = 6;
     
     enum ActionType {
       ACCEPT = 0;
       DROP = 1;
+    }
+    
+    enum TypeType {
+      IN = 0;
+      OUT = 2;
+    }
+    
+    enum ProtocolType {
+      TCP = 0;
+      UDP = 1;
     }
   }
   
