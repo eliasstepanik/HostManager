@@ -1,21 +1,41 @@
 syntax = "proto3";
+import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "HostManager";
 
-package greet;
+package docker;
 
 // The greeting service definition.
-service Greeter {
+service DockerService {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
+  rpc GetPorts (GetPortsRequest) returns (GetPortsReply);
 }
 
 // The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message GetPortsRequest {
+  
 }
 
 // The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message GetPortsReply {
+  repeated Port ports = 1;
+  google.protobuf.Timestamp timestamp = 5;
+
+
+  message Port {
+    string type = 1;
+    int32 destPort = 2;
+    ActionType action = 3;
+    
+    
+    
+    enum ActionType {
+      ACCEPT = 0;
+      DROP = 1;
+    }
+  }
+  
+  
+  
+  
 }

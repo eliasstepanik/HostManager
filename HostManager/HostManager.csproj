@@ -8,10 +8,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos\greet.proto" GrpcServices="Server"/>
+        <Protobuf Include="Protos\*.proto" GrpcServices="Server"/>
+        <Protobuf Update="Protos\docker.proto">
+          <Access>Public</Access>
+          <ProtoCompile>True</ProtoCompile>
+          <CompileOutputs>True</CompileOutputs>
+          <OutputDir>obj\Debug\net7.0\</OutputDir>
+          <Generator>MSBuild:Compile</Generator>
+        </Protobuf>
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Docker.DotNet" Version="3.125.15" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.58.0" />
     </ItemGroup>
 

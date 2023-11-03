@@ -1,12 +1,10 @@
 ﻿using Docker.DotNet;
 using Docker.DotNet.Models;
-using Microsoft.Extensions.Logging;
-using PortUpdate.Models;
-using Port = PortUpdate.Models.Port;
+using Grpc.Core;
 
-namespace PortUpdate.Services;
+namespace HostManager.Services;
 
-public class DockerService
+public class DockerService : HostManager.DockerService.DockerServiceBase
 {
     private readonly ILogger<DockerService> _logger;
     private readonly DockerClient _client;
@@ -18,11 +16,11 @@ public class DockerService
 
     }
     
-    public async Task<PortRequest?> GetPorts()
+    public async Task<GetPortsRequest?> GetPorts()
     {
         var containers = await _client.Containers.ListContainersAsync(new ContainersListParameters());
 
-        PortRequest portsRequest = new PortRequest()
+        var portsRequest = new GetPortsRequest()
         {
             Ports = new List<Port>()
         };
