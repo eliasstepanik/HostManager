@@ -1,0 +1,60 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "AutoProxy.Server";
+
+package docker;
+
+// The greeting service definition.
+service DockerService {
+  // Sends a greeting
+  rpc GetPorts (stream GetPortsRequest) returns (stream GetPortsReply);
+  rpc GetDomains (GetDomainsRequest) returns (GetDomainsReply);
+}
+
+message GetPortsRequest {
+  int32 exitCode = 1;
+}
+
+message GetPortsReply {
+  repeated Port ports = 1;
+  google.protobuf.Timestamp timestamp = 5;
+
+
+  message Port {
+    TypeType type = 1;
+    int32 destPort = 2;
+    ActionType action = 3;
+    bool enable = 4;
+    optional int32 position = 5;
+    ProtocolType protocol = 6;
+    
+    enum ActionType {
+      ACCEPT = 0;
+      DROP = 1;
+    }
+    
+    enum TypeType {
+      IN = 0;
+      OUT = 2;
+    }
+    
+    enum ProtocolType {
+      TCP = 0;
+      UDP = 1;
+    }
+  }
+}
+
+message GetDomainsRequest {}
+
+message GetDomainsReply {
+  repeated Domain domains = 1;
+  
+  message Domain {
+    string domainName = 1;
+    string apiKey = 2;
+  }
+  
+}
+
