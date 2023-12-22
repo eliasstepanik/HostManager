@@ -7,7 +7,7 @@ namespace AutoProxy.PortManager.Services;
 
 public class SyncService(ILogger<SyncService> logger)
 {
-    private readonly GrpcChannel _channel = GrpcChannel.ForAddress("http://autoproxy-server-1");
+    private readonly GrpcChannel _channel = GrpcChannel.ForAddress("http://hostmanager-server-1");
 
     public void Update()
     {

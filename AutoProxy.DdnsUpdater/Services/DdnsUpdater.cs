@@ -12,7 +12,7 @@ public class DdnsUpdater(ILogger<DdnsUpdater> logger,IServiceScopeFactory factor
     private readonly ILogger<DdnsUpdater> _logger = logger;
     private readonly IServiceScopeFactory _factory = factory;
     private readonly DdnsDbContext _dbContext = dbContext;
-    private readonly GrpcChannel _channel = GrpcChannel.ForAddress("http://autoproxy-server-1");
+    private readonly GrpcChannel _channel = GrpcChannel.ForAddress("http://hostmanager-server-1");
     
     private List<string>? UpdateUrLs { get; set; }
 
