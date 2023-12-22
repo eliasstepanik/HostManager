@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoProxy.DdnsUpdater.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PortUpdate.Interfaces;
 
-namespace AutoProxy.BaseClient.Services;
+namespace AutoProxy.DdnsUpdater.Services;
 
 public class TimerService : ITimerService
 {
@@ -23,8 +23,8 @@ public class TimerService : ITimerService
     {
         _logger.LogDebug("Timer callback executed at " + DateTime.Now);
         var scope = _factory.CreateScope();
-        var portClient = scope.ServiceProvider.GetRequiredService<PortClient>();
-        portClient.GetPorts();
+        var ddnsService = scope.ServiceProvider.GetRequiredService<DdnsUpdater>();
+        ddnsService.Update();
     }
 
     public void Start()

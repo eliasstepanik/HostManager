@@ -1,19 +1,25 @@
-﻿using AutoProxy.Server;
+﻿using System.Text.Json;
+using AutoProxy.Server.Docker;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Logging;
 
-namespace PortUpdate.Services;
+namespace AutoProxy.BaseClient.Services;
 
 public class PortClient
 {
-    public PortClient()
+    private readonly GrpcChannel _channel;
+    private readonly ILogger<PortClient> _logger;
+    public PortClient(ILogger<PortClient> logger)
     {
-        using var channel = GrpcChannel.ForAddress("https://localhost:7280");
-        var client = new DockerService.DockerServiceClient(channel);
-        var reply = client.GetPorts();
+        _logger = logger;
+        _channel = GrpcChannel.ForAddress("http://localhost:5005");
     }
 
-    public void Update()
+    public void GetPorts()
     {
+        var client = new DockerService.DockerServiceClient(_channel);
+        var reply = client.GetPorts(new GetPortsRequest());
         
+        _logger.LogInformation("Got Ports {S}", JsonSerializer.Serialize(reply.Ports));
     }
 }

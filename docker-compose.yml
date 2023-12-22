@@ -1,0 +1,39 @@
+﻿version: "3.9"
+
+networks:
+  internal:
+
+services: 
+  server:
+    build:
+      context: .
+      dockerfile: ./AutoProxy.Server/Dockerfile
+    image: saile2204/autoproxy-server:latest
+    tty: true
+    networks:
+      - internal
+  
+  host-manager:
+    build:
+      context: .
+      dockerfile: ./AutoProxy.HostManager/Dockerfile
+    image: saile2204/autoproxy-hostmanager:latest
+    tty: true
+    depends_on:
+      - server
+    networks:
+      - internal
+  
+  port-manager:
+    build:
+      context: .
+      dockerfile: ./AutoProxy.PortManager/Dockerfile
+    image: saile2204/autoproxy-portsync:latest
+    tty: true
+    depends_on:
+      - server
+    networks:
+      - internal
+    
+
+

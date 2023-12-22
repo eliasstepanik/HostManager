@@ -1,4 +1,5 @@
-﻿using Docker.DotNet;
+﻿using AutoProxy.Server.Docker;
+using Docker.DotNet;
 using Docker.DotNet.Models;
 using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
@@ -7,131 +8,52 @@ using Microsoft.Extensions.Logging;
 
 namespace AutoProxy.Server.Services;
 
-public class DockerService : Server.DockerService.DockerServiceBase
+public class DockerService(ILogger<DockerService> logger) : Server.Docker.DockerService.DockerServiceBase
 {
-    private readonly ILogger<DockerService> _logger;
-    private DockerClient _client;
+    private DockerClient _client = new DockerClientConfiguration()
+        .CreateClient();
 
-    public DockerService(ILogger<DockerService> logger)
+    public override async Task<GetPortsReply> GetPorts(GetPortsRequest request, ServerCallContext context)
     {
-        _logger = logger;
         _client = new DockerClientConfiguration()
             .CreateClient();
-
-    }
-
-    public override async Task GetPorts(IAsyncStreamReader<GetPortsRequest> requestStream, IServerStreamWriter<GetPortsReply> responseStream, ServerCallContext context)
-    {
-        _logger.LogInformation("Port Client Connected!");
-        // Read requests in a background task.
-        var readTask = Task.Run(async () =>
+        var containers = new List<ContainerListResponse>();
+        try
         {
-            await foreach (var message in requestStream.ReadAllAsync())
-            {
-                if (message.ExitCode != 0)
-                {
-                    switch (message.ExitCode)
-                    {
-                        case 200:
-                            _logger.LogInformation("Port Stream disconnected with Error Code 200");
-                            return;
-                        case 443:
-                            _logger.LogError("Port Stream lost the Connection. Check the connectivity!");
-                            return;
-                    }
-                    
-                    _logger.LogError("The Port Stream exited with the unknown exitcode {MessageExitCode}", message.ExitCode);
-                    return;
-                }
-                
-                
-            }
-        });
-        
-        while (!readTask.IsCompleted)
+            if (_client == null)
+                throw new Exception("No Docker Client!");
+            
+            var listContainersAsync = await _client.Containers.ListContainersAsync(new ContainersListParameters());
+            containers.AddRange(listContainersAsync);
+        }
+        catch (Exception e)
         {
-            _client = new DockerClientConfiguration()
-                .CreateClient();
-            var containers = new List<ContainerListResponse>();
-            try
+            await Task.FromResult(new GetPortsReply()
             {
-                if (_client == null)
-                    throw new Exception("No Docker Client!");
-                
-                var listContainersAsync = await _client.Containers.ListContainersAsync(new ContainersListParameters());
-                containers.AddRange(listContainersAsync);
-            }
-            catch (Exception e)
-            {
-                await responseStream.WriteAsync(new ()
-                {
-                    Timestamp = DateTime.Now.ToUniversalTime().ToTimestamp()
-                });
-            }
-
-
-            var ports = new List<GetPortsReply.Types.Port>();
-            foreach (var container in containers)
-            {
-                foreach (var containerPort in container.Ports)
-                {
-                    if (containerPort.PublicPort != 0)
-                    {
-                        GetPortsReply.Types.Port.Types.ProtocolType proto;
-                        if (containerPort.Type.Equals("tcp"))
-                            proto = GetPortsReply.Types.Port.Types.ProtocolType.Tcp;
-                        else
-                            proto = GetPortsReply.Types.Port.Types.ProtocolType.Udp;
-
-                        var port = new GetPortsReply.Types.Port()
-                        {
-                            Action = GetPortsReply.Types.Port.Types.ActionType.Accept,
-                            Enable = true,
-                            Protocol = proto,
-                            Type = GetPortsReply.Types.Port.Types.TypeType.In,
-                            DestPort = containerPort.PublicPort
-
-                        };
-                        ports.Add(port);
-                    }
-
-                }
-            }
-            
-            
-            await responseStream.WriteAsync(new ()
-            {
-                Ports = { ports },
                 Timestamp = DateTime.Now.ToUniversalTime().ToTimestamp()
             });
-            await Task.Delay(TimeSpan.FromSeconds(1), context.CancellationToken);
         }
-    }
 
-    /*public override async Task<GetPortsReply> GetPorts(GetPortsRequest request, ServerCallContext context)
-    {
-        var containers = await _client.Containers.ListContainersAsync(new ContainersListParameters());
 
-        var ports = new List<GetPortsReply.Types.Port>();
+        var ports = new List<DockerPort>();
         foreach (var container in containers)
         {
             foreach (var containerPort in container.Ports)
             {
                 if (containerPort.PublicPort != 0)
                 {
-                    GetPortsReply.Types.Port.Types.ProtocolType proto;
+                    DockerPort.Types.ProtocolType proto;
                     if (containerPort.Type.Equals("tcp"))
-                        proto = GetPortsReply.Types.Port.Types.ProtocolType.Tcp;
+                        proto = DockerPort.Types.ProtocolType.Tcp;
                     else
-                        proto = GetPortsReply.Types.Port.Types.ProtocolType.Udp;
+                        proto = DockerPort.Types.ProtocolType.Udp;
 
-                    var port = new GetPortsReply.Types.Port()
+                    var port = new DockerPort()
                     {
-                        Action = GetPortsReply.Types.Port.Types.ActionType.Accept,
+                        Action = DockerPort.Types.ActionType.Accept,
                         Enable = true,
-                        Position = 0,
                         Protocol = proto,
-                        Type = GetPortsReply.Types.Port.Types.TypeType.In,
+                        Type = DockerPort.Types.TypeType.In,
                         DestPort = containerPort.PublicPort
 
                     };
@@ -140,13 +62,14 @@ public class DockerService : Server.DockerService.DockerServiceBase
 
             }
         }
-
+        
+        logger.LogInformation("Sending Docker Ports to Client");
         return await Task.FromResult(new GetPortsReply
         {
             Ports = { ports },
-            Timestamp = DateTime.Now.ToTimestamp()
+            Timestamp = DateTime.Now.ToUniversalTime().ToTimestamp()
         });
-    }*/
+    }
     public override async Task<GetDomainsReply> GetDomains(GetDomainsRequest request, ServerCallContext context)
     {
         var containers = await _client.Containers.ListContainersAsync(new ContainersListParameters());
@@ -162,6 +85,7 @@ public class DockerService : Server.DockerService.DockerServiceBase
         }
         
         
+        logger.LogInformation("Sending Docker Domains to Client");
         return await Task.FromResult(new GetDomainsReply()
         {
             Domains = { domains }

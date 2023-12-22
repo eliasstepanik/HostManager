@@ -18,19 +18,19 @@ message GetPortsReply {
   repeated DockerPort ports = 1;
   google.protobuf.Timestamp timestamp = 5;
 
-  
+
 }
 
 message GetDomainsRequest {}
 
 message GetDomainsReply {
   repeated Domain domains = 1;
-  
+
   message Domain {
     string domainName = 1;
     string apiKey = 2;
   }
-  
+
 }
 
 message DockerPort {

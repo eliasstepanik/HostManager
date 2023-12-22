@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoProxy.BaseClient", "Aut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoProxy.Server", "AutoProxy.Server\AutoProxy.Server.csproj", "{F75939DD-124B-4067-9DF0-ABA1710524CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoProxy.PortManager", "AutoProxy.PortManager\AutoProxy.PortManager.csproj", "{54AB3E45-7D48-4A41-A04E-4B639E07EF0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoProxy.DdnsUpdater", "AutoProxy.DdnsUpdater\AutoProxy.DdnsUpdater.csproj", "{AD47499C-671A-4DF1-853D-6046FF63A8AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{F75939DD-124B-4067-9DF0-ABA1710524CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F75939DD-124B-4067-9DF0-ABA1710524CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F75939DD-124B-4067-9DF0-ABA1710524CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54AB3E45-7D48-4A41-A04E-4B639E07EF0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54AB3E45-7D48-4A41-A04E-4B639E07EF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54AB3E45-7D48-4A41-A04E-4B639E07EF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54AB3E45-7D48-4A41-A04E-4B639E07EF0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD47499C-671A-4DF1-853D-6046FF63A8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD47499C-671A-4DF1-853D-6046FF63A8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD47499C-671A-4DF1-853D-6046FF63A8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD47499C-671A-4DF1-853D-6046FF63A8AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

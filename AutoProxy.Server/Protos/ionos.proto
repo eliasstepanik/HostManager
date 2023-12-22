@@ -1,0 +1,30 @@
+﻿syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "AutoProxy.Server.Ionos";
+
+package ionos;
+
+// The greeting service definition.
+service IonosService {
+  // Sends a greeting
+  rpc GetUpdateUrl (GetUpdateUrlRequest) returns (GetUpdateUrlReply);
+  rpc UpdateDomains (UpdateDomainsRequest) returns (UpdateDomainsReply);
+}
+
+message GetUpdateUrlRequest {
+  repeated string Domains = 1;
+  string Key = 2;
+}
+
+message GetUpdateUrlReply {
+  string UpdateUrl = 1;
+}
+
+message UpdateDomainsRequest {
+  string UpdateUrl = 1;
+}
+
+message UpdateDomainsReply {
+  int32 StatusCode = 1;
+}
