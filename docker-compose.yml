@@ -36,6 +36,7 @@ services:
       dockerfile: ./AutoProxy.Server/Dockerfile
     image: saile2204/autoproxy-server:latest
     tty: true
+    restart: unless-stopped
     networks:
       - internal
   
@@ -49,6 +50,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true
+    restart: unless-stopped
     depends_on:
       - server
     networks:
@@ -64,6 +66,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true
+    restart: unless-stopped
     depends_on:
       - server
     networks:
