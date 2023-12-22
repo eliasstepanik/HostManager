@@ -18,6 +18,8 @@ services:
       context: .
       dockerfile: ./AutoProxy.DdnsUpdater/Dockerfile
     image: saile2204/autoproxy-ddns-updater:latest
+    environment:
+      GRPC_HOST: "hostmanager-server-1"
     tty: true
     depends_on:
       - server
@@ -29,6 +31,8 @@ services:
       context: .
       dockerfile: ./AutoProxy.PortManager/Dockerfile
     image: saile2204/autoproxy-portsync:latest
+    environment:
+      GRPC_HOST: "hostmanager-server-1"
     tty: true
     depends_on:
       - server

@@ -7,7 +7,7 @@ namespace AutoProxy.PortManager.Services;
 
 public class SyncService(ILogger<SyncService> logger)
 {
-    private readonly GrpcChannel _channel = GrpcChannel.ForAddress("http://hostmanager-server-1");
+    private readonly GrpcChannel _channel = GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
 
     public void Update()
     {
