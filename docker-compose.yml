@@ -4,6 +4,10 @@ networks:
   proxy:
   internal:
 
+volumes:
+  caddy_data:
+  caddy_config:
+
 services:
   caddy:
     image: saile2204/caddy-proxy:latest
@@ -39,6 +43,8 @@ services:
     image: saile2204/autoproxy-ddns-updater:latest
     environment:
       GRPC_HOST: "hostmanager-server-1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     tty: true
     depends_on:
       - server
@@ -52,6 +58,8 @@ services:
     image: saile2204/autoproxy-portsync:latest
     environment:
       GRPC_HOST: "hostmanager-server-1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     tty: true
     depends_on:
       - server
