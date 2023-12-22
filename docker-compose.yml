@@ -10,6 +10,9 @@ volumes:
 
 services:
   caddy:
+    build:
+      context: .
+      dockerfile: ./Caddy-AutoProxy-Dockerfile
     image: saile2204/caddy-proxy:latest
     restart: unless-stopped
     ports:
