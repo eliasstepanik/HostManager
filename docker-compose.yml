@@ -13,11 +13,11 @@ services:
     networks:
       - internal
   
-  host-manager:
+  ddns-updater:
     build:
       context: .
-      dockerfile: ./AutoProxy.HostManager/Dockerfile
-    image: saile2204/autoproxy-hostmanager:latest
+      dockerfile: ./AutoProxy.DdnsUpdater/Dockerfile
+    image: saile2204/autoproxy-ddns-updater:latest
     tty: true
     depends_on:
       - server
