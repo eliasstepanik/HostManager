@@ -14,10 +14,10 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-        <PackageReference Include="Spectre.Console" Version="0.47.0" />
+        <PackageReference Include="Spectre.Console" Version="0.48.0" />
         <PackageReference Include="Google.Protobuf" Version="3.25.1" />
         <PackageReference Include="Grpc.Net.Client" Version="2.59.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.59.0">
+        <PackageReference Include="Grpc.Tools" Version="2.60.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
