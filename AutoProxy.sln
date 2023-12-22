@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoProxy.BaseClient", "AutoProxy.BaseClient\AutoProxy.BaseClient.csproj", "{3443F719-1D71-48AA-8FCF-2576DEC62A6A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoProxy.Server", "AutoProxy.Server\AutoProxy.Server.csproj", "{F75939DD-124B-4067-9DF0-ABA1710524CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoProxy.PortManager", "AutoProxy.PortManager\AutoProxy.PortManager.csproj", "{54AB3E45-7D48-4A41-A04E-4B639E07EF0E}"
@@ -14,10 +12,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3443F719-1D71-48AA-8FCF-2576DEC62A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3443F719-1D71-48AA-8FCF-2576DEC62A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3443F719-1D71-48AA-8FCF-2576DEC62A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3443F719-1D71-48AA-8FCF-2576DEC62A6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F75939DD-124B-4067-9DF0-ABA1710524CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F75939DD-124B-4067-9DF0-ABA1710524CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F75939DD-124B-4067-9DF0-ABA1710524CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
