@@ -1,6 +1,7 @@
 ﻿version: "3.9"
 
 networks:
+  proxy:
   internal:
 
 services:
@@ -18,7 +19,7 @@ services:
     depends_on:
       - ddns
     networks:
-      - caddy
+      - proxy
     cgroup: host
     deploy:
       labels: # Global options
