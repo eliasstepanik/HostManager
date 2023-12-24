@@ -7,7 +7,7 @@ namespace AutoProxy.PortManager.Services;
 
 public class SyncService(ILogger<SyncService> logger)
 {
-    private readonly GrpcChannel _channel = GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
+    private readonly GrpcChannel _channel = null!;
 
     public void Update()
     {
@@ -30,6 +30,7 @@ public class SyncService(ILogger<SyncService> logger)
     
     private void ProcessPortRequest(Server.Proxmox.GetPortsReply currentPorts,Server.Docker.GetPortsReply newPorts)
     {
+        GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
         var proxmoxClient = new ProxmoxService.ProxmoxServiceClient(_channel);
         
         foreach (var currentPort in currentPorts.Ports)
