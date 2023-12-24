@@ -13,11 +13,13 @@ service ProxmoxService {
   rpc ClosePort (ClosePortRequest) returns (ClosePortReply);
 }
 
-message GetPortsRequest {}
+message GetPortsRequest {
+  string group = 1;
+}
 
 message GetPortsReply {
   repeated Port ports = 1;
-  google.protobuf.Timestamp timestamp = 5;
+  google.protobuf.Timestamp timestamp = 3;
 
 
   message Port {
@@ -47,6 +49,7 @@ message GetPortsReply {
 
 message OpenPortRequest {
   Port port = 1;
+  string group = 2;
 
   message Port {
     TypeType type = 1;
@@ -78,6 +81,8 @@ message OpenPortReply {
 
 message ClosePortRequest {
   int32 position = 1;
+  string group = 2;
+
 }
 
 message ClosePortReply {

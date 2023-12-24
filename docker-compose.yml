@@ -47,6 +47,7 @@ services:
     image: saile2204/autoproxy-ddns-updater:latest
     environment:
       GRPC_HOST: "hostmanager-server-1"
+      PROXMOX_FIREWALL_GROUP: "dynamic_portainer"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true
@@ -63,6 +64,7 @@ services:
     image: saile2204/autoproxy-portsync:latest
     environment:
       GRPC_HOST: "hostmanager-server-1"
+      PROXMOX_FIREWALL_GROUP: "dynamic_portainer"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true

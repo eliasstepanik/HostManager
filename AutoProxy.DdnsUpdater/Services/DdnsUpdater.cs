@@ -12,13 +12,14 @@ public class DdnsUpdater(ILogger<DdnsUpdater> logger,IServiceScopeFactory factor
     private readonly ILogger<DdnsUpdater> _logger = logger;
     private readonly IServiceScopeFactory _factory = factory;
     private readonly DdnsDbContext _dbContext = dbContext;
-    private readonly GrpcChannel _channel = GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
+    private GrpcChannel _channel = null!;
     
     private List<string>? UpdateUrLs { get; set; }
 
 
     public async void Start()
     {
+        _channel = GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
         _logger.LogInformation("Fetching UpdateURLs");
         UpdateUrLs = await GetUpdateUrLs();
         while (UpdateUrLs == null || UpdateUrLs.Count == 0 )
@@ -54,6 +55,7 @@ public class DdnsUpdater(ILogger<DdnsUpdater> logger,IServiceScopeFactory factor
     
     private async Task<List<string>> GetUpdateUrLs()
     {
+        _channel = GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
         var dockerClient = new DockerService.DockerServiceClient(_channel);
         var ionosClient = new IonosService.IonosServiceClient(_channel);
         

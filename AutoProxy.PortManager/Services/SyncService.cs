@@ -41,7 +41,8 @@ public class SyncService(ILogger<SyncService> logger)
             {
                 proxmoxClient.ClosePortAsync(new ClosePortRequest()
                 {
-                    Position = currentPort.Postion
+                    Position = currentPort.Postion,
+                    Group = Environment.GetEnvironmentVariable("PROXMOX_FIREWALL_GROUP")
                 });
             }
         }
@@ -56,6 +57,7 @@ public class SyncService(ILogger<SyncService> logger)
             {
                 proxmoxClient.OpenPortAsync(new OpenPortRequest()
                 {
+                    Group = Environment.GetEnvironmentVariable("PROXMOX_FIREWALL_GROUP"),
                     Port = new OpenPortRequest.Types.Port()
                     {
                         DestPort = port.DestPort,
@@ -65,7 +67,4 @@ public class SyncService(ILogger<SyncService> logger)
             }
         }
     }
-
-    
-
 }
