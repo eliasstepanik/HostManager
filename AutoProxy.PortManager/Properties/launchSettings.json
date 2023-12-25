@@ -5,7 +5,9 @@
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GRPC_HOST": "http://localhost:5005",
+        "PROXMOX_FIREWALL_GROUP": "dynamic_portainer"
       }
     }
   }

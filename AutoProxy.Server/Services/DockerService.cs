@@ -10,20 +10,18 @@ namespace AutoProxy.Server.Services;
 
 public class DockerService(ILogger<DockerService> logger) : Server.Docker.DockerService.DockerServiceBase
 {
-    private DockerClient _client = new DockerClientConfiguration()
-        .CreateClient();
 
     public override async Task<GetPortsReply> GetPorts(GetPortsRequest request, ServerCallContext context)
     {
-        _client = new DockerClientConfiguration()
+        var client = new DockerClientConfiguration()
             .CreateClient();
         var containers = new List<ContainerListResponse>();
         try
         {
-            if (_client == null)
+            if (client == null)
                 throw new Exception("No Docker Client!");
             
-            var listContainersAsync = await _client.Containers.ListContainersAsync(new ContainersListParameters());
+            var listContainersAsync = await client.Containers.ListContainersAsync(new ContainersListParameters());
             containers.AddRange(listContainersAsync);
         }
         catch (Exception e)
@@ -64,15 +62,19 @@ public class DockerService(ILogger<DockerService> logger) : Server.Docker.Docker
         }
         
         logger.LogInformation("Sending Docker Ports to Client");
+        client?.Dispose();
         return await Task.FromResult(new GetPortsReply
         {
             Ports = { ports },
             Timestamp = DateTime.Now.ToUniversalTime().ToTimestamp()
         });
+        
     }
     public override async Task<GetDomainsReply> GetDomains(GetDomainsRequest request, ServerCallContext context)
     {
-        var containers = await _client.Containers.ListContainersAsync(new ContainersListParameters());
+        var client = new DockerClientConfiguration()
+            .CreateClient();
+        var containers = await client.Containers.ListContainersAsync(new ContainersListParameters());
         var domains = new List<GetDomainsReply.Types.Domain>();
 
         foreach (var container in containers)
@@ -86,6 +88,7 @@ public class DockerService(ILogger<DockerService> logger) : Server.Docker.Docker
         
         
         logger.LogInformation("Sending Docker Domains to Client");
+        client.Dispose();
         return await Task.FromResult(new GetDomainsReply()
         {
             Domains = { domains }

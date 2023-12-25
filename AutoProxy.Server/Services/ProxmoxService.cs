@@ -28,7 +28,7 @@ public class ProxmoxService(ILogger<ProxmoxService> logger) : Server.Proxmox.Pro
         var urls = new string[]
         {
             "https://192.168.188.40:8006",
-            "https://192.168.178.5:8006"
+            "https://192.168.178.118:8006"
         };
         foreach (var url in urls)
         {
@@ -69,7 +69,7 @@ public class ProxmoxService(ILogger<ProxmoxService> logger) : Server.Proxmox.Pro
         var urls = new string[]
         {
             "https://192.168.188.40:8006",
-            "https://192.168.178.5:8006"
+            "https://192.168.178.118:8006"
         };
         foreach (var url in urls)
         {
@@ -163,7 +163,7 @@ public class ProxmoxService(ILogger<ProxmoxService> logger) : Server.Proxmox.Pro
         var urls = new string[]
         {
             "https://192.168.188.40:8006",
-            "https://192.168.178.5:8006"
+            "https://192.168.178.118:8006"
         };
         foreach (var url in urls)
         {
@@ -212,7 +212,7 @@ public class ProxmoxService(ILogger<ProxmoxService> logger) : Server.Proxmox.Pro
         var urls = new string[]
         {
             "https://192.168.188.40:8006",
-            "https://192.168.178.5:8006"
+            "https://192.168.178.118:8006"
         };
         foreach (var url in urls)
         {

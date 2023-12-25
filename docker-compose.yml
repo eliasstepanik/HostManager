@@ -10,6 +10,7 @@ volumes:
 
 services:
   caddy:
+    container_name: proxy-discovery
     build:
       context: .
       dockerfile: ./Caddy-AutoProxy-Dockerfile
@@ -31,6 +32,7 @@ services:
         caddy.email: eliasstepanik@web.de
   
   server:
+    container_name: proxy-server
     build:
       context: .
       dockerfile: ./AutoProxy.Server/Dockerfile
@@ -41,13 +43,13 @@ services:
       - internal
   
   ddns-updater:
+    container_name: proxy-ddns
     build:
       context: .
       dockerfile: ./AutoProxy.DdnsUpdater/Dockerfile
     image: saile2204/autoproxy-ddns-updater:latest
     environment:
-      GRPC_HOST: "http://hostmanager-server-1:8080"
-      PROXMOX_FIREWALL_GROUP: "dynamic_portainer"
+      GRPC_HOST: "http://proxy-server:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true
@@ -58,12 +60,13 @@ services:
       - internal
   
   port-manager:
+    container_name: proxy-ports
     build:
       context: .
       dockerfile: ./AutoProxy.PortManager/Dockerfile
     image: saile2204/autoproxy-portsync:latest
     environment:
-      GRPC_HOST: "http://hostmanager-server-1:8080"
+      GRPC_HOST: "http://proxy-server:8080"
       PROXMOX_FIREWALL_GROUP: "dynamic_portainer"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

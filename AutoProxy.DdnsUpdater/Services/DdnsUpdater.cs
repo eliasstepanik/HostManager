@@ -33,6 +33,7 @@ public class DdnsUpdater(ILogger<DdnsUpdater> logger,IServiceScopeFactory factor
     
     public async void Update()
     {
+        _channel = GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
         var ionosClient = new IonosService.IonosServiceClient(_channel);
         if (UpdateUrLs != null)
         {
