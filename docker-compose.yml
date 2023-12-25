@@ -42,23 +42,23 @@ services:
     networks:
       - internal
   
-  ddns-updater:
-    container_name: proxy-ddns
-    build:
-      context: .
-      dockerfile: ./AutoProxy.DdnsUpdater/Dockerfile
-    image: saile2204/autoproxy-ddns-updater:latest
-    environment:
-      GRPC_HOST: "http://proxy-server:8080"
-      PROXMOX_FIREWALL_GROUP: "dynamic_portainer"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    tty: true
-    restart: unless-stopped
-    depends_on:
-      - server
-    networks:
-      - internal
+  #ddns-updater:
+  #  container_name: proxy-ddns
+  #  build:
+  #    context: .
+  #    dockerfile: ./AutoProxy.DdnsUpdater/Dockerfile
+  #  image: saile2204/autoproxy-ddns-updater:latest
+  #  environment:
+  #    GRPC_HOST: "http://proxy-server:8080"
+  #    PROXMOX_FIREWALL_GROUP: "dynamic_portainer"
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #  tty: true
+  #  restart: unless-stopped
+  #  depends_on:
+  #    - server
+  #  networks:
+  #    - internal
   
   port-manager:
     container_name: proxy-ports
@@ -68,6 +68,7 @@ services:
     image: saile2204/autoproxy-portsync:latest
     environment:
       GRPC_HOST: "http://proxy-server:8080"
+      PROXMOX_FIREWALL_GROUP: "dynamic_portainer"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true
