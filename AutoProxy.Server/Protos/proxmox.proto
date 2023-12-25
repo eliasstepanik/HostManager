@@ -13,7 +13,9 @@ service ProxmoxService {
   rpc ClosePort (ClosePortRequest) returns (ClosePortReply);
 }
 
-message GetPortsRequest {}
+message GetPortsRequest {
+  string group = 1;
+}
 
 message GetPortsReply {
   repeated Port ports = 1;
@@ -80,6 +82,7 @@ message OpenPortReply {
 
 message ClosePortRequest {
   int32 position = 1;
+  string group = 2;
 }
 
 message ClosePortReply {

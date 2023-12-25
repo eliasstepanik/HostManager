@@ -81,8 +81,9 @@ public class ProxmoxService(ILogger<ProxmoxService> logger) : Server.Proxmox.Pro
                     MaxTimeout = -1,
                     RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true,
                 };
+                
                 var client = new RestClient(options);
-                var restRequest = new RestRequest($"/api2/json/cluster/firewall/groups/{Environment.GetEnvironmentVariable("PROXMOX_FIREWALL_GROUP") ?? throw new Exception("GRPC Host not set!")}/");
+                var restRequest = new RestRequest($"/api2/json/cluster/firewall/groups/{request.Group}/");
                 restRequest.AddHeader("Authorization", "PVEAuthCookie=" + _ticket!.Data.Ticket);
                 restRequest.AddHeader("CSRFPreventionToken", _ticket!.Data.CsrfPreventionToken);
                 RestResponse response = await client.ExecuteAsync(restRequest);
@@ -175,7 +176,7 @@ public class ProxmoxService(ILogger<ProxmoxService> logger) : Server.Proxmox.Pro
                     RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true,
                 };
                 var client = new RestClient(options);
-                var restRequest = new RestRequest($"/api2/json/cluster/firewall/groups/{Environment.GetEnvironmentVariable("PROXMOX_FIREWALL_GROUP") ?? throw new Exception("GRPC Host not set!")}", RestSharp.Method.Post);
+                var restRequest = new RestRequest($"/api2/json/cluster/firewall/groups/{request.Group}", RestSharp.Method.Post);
                 restRequest.AddHeader("Authorization", "PVEAuthCookie=" + _ticket!.Data.Ticket);
                 restRequest.AddHeader("CSRFPreventionToken", _ticket!.Data.CsrfPreventionToken);
                 restRequest.AddHeader("Content-Type", "application/json");
@@ -227,7 +228,7 @@ public class ProxmoxService(ILogger<ProxmoxService> logger) : Server.Proxmox.Pro
                         RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true,
                     };
                     var client = new RestClient(options);
-                    var restRequest = new RestRequest($"/api2/json/cluster/firewall/groups/{Environment.GetEnvironmentVariable("PROXMOX_FIREWALL_GROUP") ?? throw new Exception("GRPC Host not set!")}/" + request.Position, RestSharp.Method.Delete);
+                    var restRequest = new RestRequest($"/api2/json/cluster/firewall/groups/{request.Group}/" + request.Position, RestSharp.Method.Delete);
                     restRequest.AddHeader("Authorization", "PVEAuthCookie=" + _ticket!.Data.Ticket);
                     restRequest.AddHeader("CSRFPreventionToken", _ticket!.Data.CsrfPreventionToken);
 

@@ -23,6 +23,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+
         <Protobuf Include="Protos\*.proto" GrpcServices="Client" />
     </ItemGroup>
 

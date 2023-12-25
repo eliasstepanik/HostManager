@@ -33,7 +33,6 @@ public class IonosServices(ILogger<IonosServices> logger) : Ionos.IonosService.I
             _logger.LogError(e.Message);
             return new UpdateDomainsReply() { StatusCode = 443 };
         }
-        return new UpdateDomainsReply() { StatusCode = 0 };
     }
 
     public override async Task<GetUpdateUrlReply> GetUpdateUrl(GetUpdateUrlRequest request, ServerCallContext context)

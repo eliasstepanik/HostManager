@@ -19,6 +19,7 @@ message GetPortsRequest {
 
 message GetPortsReply {
   repeated Port ports = 1;
+  string group = 2;
   google.protobuf.Timestamp timestamp = 3;
 
 
@@ -82,7 +83,6 @@ message OpenPortReply {
 message ClosePortRequest {
   int32 position = 1;
   string group = 2;
-  
 }
 
 message ClosePortReply {
