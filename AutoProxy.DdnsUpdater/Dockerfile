@@ -3,16 +3,16 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["AutoProxy.BaseClient/AutoProxy.BaseClient.csproj", "AutoProxy.BaseClient/"]
-RUN dotnet restore "AutoProxy.BaseClient/AutoProxy.BaseClient.csproj"
+COPY ["AutoProxy.BaseClient/AutoProxy.DdnsUpdater.csproj", "AutoProxy.DdnsUpdater/"]
+RUN dotnet restore "AutoProxy.BaseClient/AutoProxy.DdnsUpdater.csproj"
 COPY . .
-WORKDIR "/src/AutoProxy.BaseClient"
-RUN dotnet build "AutoProxy.BaseClient.csproj" -c Release -o /app/build
+WORKDIR "/src/AutoProxy.DdnsUpdater"
+RUN dotnet build "AutoProxy.DdnsUpdater.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AutoProxy.BaseClient.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "AutoProxy.DdnsUpdater.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AutoProxy.BaseClient.dll"]
+ENTRYPOINT ["dotnet", "AutoProxy.DdnsUpdater.dll"]
