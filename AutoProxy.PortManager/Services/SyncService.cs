@@ -11,6 +11,7 @@ public class SyncService(ILogger<SyncService> logger)
 
     public void Update()
     {
+        _channel = GrpcChannel.ForAddress(Environment.GetEnvironmentVariable("GRPC_HOST") ?? throw new Exception("GRPC Host not set!"));
         var dockerClient = new DockerService.DockerServiceClient(_channel);
         var proxmoxClient = new ProxmoxService.ProxmoxServiceClient(_channel);
         
