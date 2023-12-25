@@ -3,8 +3,8 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["AutoProxy.BaseClient/AutoProxy.DdnsUpdater.csproj", "AutoProxy.DdnsUpdater/"]
-RUN dotnet restore "AutoProxy.BaseClient/AutoProxy.DdnsUpdater.csproj"
+COPY ["AutoProxy.DdnsUpdater/AutoProxy.DdnsUpdater.csproj", "AutoProxy.DdnsUpdater/"]
+RUN dotnet restore "AutoProxy.DdnsUpdater/AutoProxy.DdnsUpdater.csproj"
 COPY . .
 WORKDIR "/src/AutoProxy.DdnsUpdater"
 RUN dotnet build "AutoProxy.DdnsUpdater.csproj" -c Release -o /app/build
